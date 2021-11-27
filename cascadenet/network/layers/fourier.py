@@ -215,7 +215,7 @@ class FT2Layer(Layer):
             # nt = self.data_shape[-1]
             # out, updates = theano.scan(loop_over_n,
             #                            non_sequences=input,
-            #                            sequences=xrange(nt))
+            #                            sequences=range(nt))
             # return out
 
         out, updates = theano.scan(self.transform, sequences=input)
