@@ -175,6 +175,7 @@ if __name__ == '__main__':
         print(epoch)
         t_start = time.time()
         # Training
+        print('A')
         train_err = 0
         train_batches = 0
         for im in iterate_minibatch(train, batch_size, shuffle=True):
@@ -185,7 +186,7 @@ if __name__ == '__main__':
 
             if args.debug and train_batches == 20:
                 break
-
+        print('B')
         validate_err = 0
         validate_batches = 0
         for im in iterate_minibatch(validate, batch_size, shuffle=False):
@@ -196,7 +197,7 @@ if __name__ == '__main__':
 
             if args.debug and validate_batches == 20:
                 break
-
+        print('C')
         vis = []
         test_err = 0
         base_psnr = 0
@@ -222,7 +223,7 @@ if __name__ == '__main__':
 
             if args.debug and test_batches == 20:
                 break
-
+        print('D')
         t_end = time.time()
 
         train_err /= train_batches
