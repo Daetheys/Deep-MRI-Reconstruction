@@ -170,8 +170,9 @@ if __name__ == '__main__':
     # Create dataset
     train, validate, test = create_dummy_data()
 
-    print('Start Training...')
+    print('Start Training...',num_epoch)
     for epoch in range(num_epoch):
+        print(epoch)
         t_start = time.time()
         # Training
         train_err = 0
