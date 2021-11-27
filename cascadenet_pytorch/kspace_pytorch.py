@@ -52,7 +52,7 @@ class DataConsistencyInKspace(nn.Module):
 
         k = torch.fft.fft(x, 2, normalized=self.normalized)
         out = data_consistency(k, k0, mask, self.noise_lvl)
-        x_res = torch.ifft(out, 2, normalized=self.normalized)
+        x_res = torch.fft.ifft(out, 2, normalized=self.normalized)
 
         if x.dim() == 4:
             x_res = x_res.permute(0, 3, 1, 2)
@@ -227,7 +227,7 @@ class AveragingInKspace(nn.Module):
         # out.shape: [nb, 2*len(frame_dist), nt, nx, ny]
         # we then detatch confused real/img channel and replica kspace channel due to datasharing (nc)
         out = out.permute(0,1,3,4,5,2) # jo version, split ri and nc, put ri to the back for ifft
-        x_res = torch.ifft(out, 2, normalized=self.normalized)
+        x_res = torch.fft.ifft(out, 2, normalized=self.normalized)
 
 
         # now nb, nc, nt, nx, ny, ri, put ri to channel position, and after nc (i.e. within each nc)
