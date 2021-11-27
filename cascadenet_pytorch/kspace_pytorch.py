@@ -20,7 +20,7 @@ def data_consistency(k, k0, mask, noise_lvl=None):
 class DataConsistencyInKspace(nn.Module):
     """ Create data consistency operator
 
-    Warning: note that FFT2 (by the default of torch.fft.fft) is applied to the last 2 axes of the input.
+    Warning: note that FFT2 (by the default of torch.fft) is applied to the last 2 axes of the input.
     This method detects if the input tensor is 4-dim (2D data) or 5-dim (3D data)
     and applies FFT2 to the (nx, ny) axis.
 
@@ -50,7 +50,7 @@ class DataConsistencyInKspace(nn.Module):
             k0   = k0.permute(0, 4, 2, 3, 1)
             mask = mask.permute(0, 4, 2, 3, 1)
 
-        k = torch.fft.fft(x, 2, normalized=self.normalized)
+        k = torch.fft(x, 2, normalized=self.normalized)
         out = data_consistency(k, k0, mask, self.noise_lvl)
         x_res = torch.ifft(out, 2, normalized=self.normalized)
 
@@ -214,7 +214,7 @@ class AveragingInKspace(nn.Module):
         mask = mask.permute(0, 1, 4, 2, 3)
 
         x = x.permute(0, 4, 2, 3, 1) # put t to front, in convenience for fft
-        k = torch.fft.fft(x, 2, normalized=self.normalized)
+        k = torch.fft(x, 2, normalized=self.normalized)
         k = k.permute(0, 4, 1, 2, 3) # then put ri to the front, then t
 
         # data sharing
