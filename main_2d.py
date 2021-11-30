@@ -34,7 +34,7 @@ def prep_input(im, acc=4):
     #Data augment
     tr = transforms.Compose([
         transforms.Resize(256,256),
-        transforms.RandomAffine(0,scale=(0.5,1.0))
+        transforms.RandomAffine(0,scale=(0.5,1.0)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomVerticalFlip(p=0.5),
         transforms.RandomCrop((224,224)),
