@@ -33,14 +33,14 @@ def prep_input(im, acc=4):
     """
     #Data augment
     tr = transforms.Compose([
+        transforms.ToPILImage(),
         transforms.Resize(256,256),
         transforms.RandomAffine(0,scale=(0.5,1.0)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomVerticalFlip(p=0.5),
         transforms.RandomCrop((224,224)),
         transforms.Resize(256,256)])
-    print(type(im))
-    im = tr(torch.tensor(im)).numpy()
+    im = tr(im).numpy()
     #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
     im_und, k_und = cs.undersample(im, mask, centred=False, norm='ortho')
