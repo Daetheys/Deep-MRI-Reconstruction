@@ -260,7 +260,7 @@ if __name__ == '__main__':
         print(" test PSNR:\t\t{:.6f}".format(test_psnr))
 
         # save the model
-        if epoch in [1, 2, num_epoch-1]:
+        if epoch %20 == 0:
             if save_fig:
                 i = 0
                 for im_i, pred_i, und_i, mask_i in vis:
