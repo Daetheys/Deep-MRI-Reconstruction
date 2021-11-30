@@ -21,6 +21,7 @@ from cascadenet.util.helpers import from_lasagne_format
 from cascadenet.util.helpers import to_lasagne_format
 
 import torch
+from torchvision import transforms
 
 def prep_input(im, acc=4):
     """Undersample the batch, then reformat them into what the network accepts.
