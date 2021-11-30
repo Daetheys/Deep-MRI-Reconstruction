@@ -157,7 +157,7 @@ if __name__ == '__main__':
     batch_size = int(args.batch_size[0])
     Nx, Ny = 128, 128
     save_fig = args.savefig
-    save_every = 5
+    save_every = 1
 
     # Configure directory info
     project_root = '.'
