@@ -20,6 +20,7 @@ from cascadenet.network.model import build_d2_c2, build_d5_c5
 from cascadenet.util.helpers import from_lasagne_format
 from cascadenet.util.helpers import to_lasagne_format
 
+import torch
 
 def prep_input(im, acc=4):
     """Undersample the batch, then reformat them into what the network accepts.
@@ -29,6 +30,17 @@ def prep_input(im, acc=4):
     gauss_ivar: float - controls the undersampling rate.
                         higher the value, more undersampling
     """
+    #Data augment
+    tr = torch.nn.Sequential(
+        transforms.Resize(256,256),
+        transforms.RandomAffine(0,scale=(0.5,1.0))
+        transforms.RandomHorizontalFlip(p=0.5),
+        transforms.RandomVerticalFlip(p=0.5),
+        transforms.RandomCrop((224,224)),
+        transforms.Resize(256,256),
+    )
+    im = tr(im).numpy()
+    #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
     im_und, k_und = cs.undersample(im, mask, centred=False, norm='ortho')
     im_gnd_l = to_lasagne_format(im)
