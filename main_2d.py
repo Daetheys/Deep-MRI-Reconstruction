@@ -118,6 +118,8 @@ if __name__ == '__main__':
                         default=['0.001'], help='initial learning rate')
     parser.add_argument('--l2', metavar='float', nargs=1,
                         default=['1e-6'], help='l2 regularisation')
+    parser.add_argument('--model', metavar='str', nargs=1,
+                        default=['models/pretrained/d5_c5.npz'], help='model pretrained')
     parser.add_argument('--acceleration_factor', metavar='float', nargs=1,
                         default=['4.0'],
                         help='Acceleration factor for k-space sampling')
@@ -154,9 +156,11 @@ if __name__ == '__main__':
     # # Load D5-C5 with pretrained params
     net_config, net,  = build_d5_c5(input_shape)
     # D5-C5 with pre-trained parameters
-    with np.load('./models/pretrained/d5_c5.npz') as f:
-        param_values = [f['arr_{0}'.format(i)] for i in range(len(f.files))]
-        lasagne.layers.set_all_param_values(net, param_values)
+    name = args.model[0]
+    if not(name is None):
+        with np.load('./'+name) as f:
+            param_values = [f['arr_{0}'.format(i)] for i in range(len(f.files))]
+            lasagne.layers.set_all_param_values(net, param_values)
 
     # Compute acceleration rate
     dummy_mask = cs.cartesian_mask((10, Nx, Ny), acc, sample_n=8)
