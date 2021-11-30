@@ -43,7 +43,7 @@ def prep_input(im, acc=4):
         im += noiser + 1j*noisei
         maxmask = np.abs(im)> 1.0
         im[maxmask] /= np.abs(im[maxmask])
-    im = rotate(im,np.random.normal(0,np.pi/2),reshape=False)
+    #im = rotate(im,np.random.normal(0,np.pi/2),reshape=False)
     #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
     im_und, k_und = cs.undersample(im, mask, centred=False, norm='ortho')
