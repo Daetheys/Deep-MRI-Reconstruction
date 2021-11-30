@@ -21,6 +21,7 @@ from cascadenet.network.model import build_d2_c2, build_d5_c5
 from cascadenet.util.helpers import from_lasagne_format
 from cascadenet.util.helpers import to_lasagne_format
 
+from scipy.ndimage import rotate
 
 def prep_input(im, acc=4):
     """Undersample the batch, then reformat them into what the network accepts.
@@ -41,7 +42,7 @@ def prep_input(im, acc=4):
         noisei = np.random.normal(0,0.03,im.shape)
         im += noiser + 1j*noisei
         maxmask = np.abs(im)> 1.0
-        im[maxmask] /= np.abs(m[maxmask])
+        im[maxmask] /= np.abs(im[maxmask])
     im = rotate(im,np.random.normal(0,np.pi/2,reshape=False))
     #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
