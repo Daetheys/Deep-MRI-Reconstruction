@@ -37,12 +37,12 @@ def prep_input(im, acc=4):
         im = im[:,::-1]
     if np.random.random()>0.5: #Flip 2
         im = im[:,:,::-1]
-    if np.random.random()>0.5: #Noise
-        noiser = np.random.normal(0,0.03,im.shape)
-        noisei = np.random.normal(0,0.03,im.shape)
-        im += noiser + 1j*noisei
-        maxmask = np.abs(im)> 1.0
-        im[maxmask] /= np.abs(im[maxmask])
+    #if np.random.random()>0.5: #Noise
+    #    noiser = np.random.normal(0,0.03,im.shape)
+    #    noisei = np.random.normal(0,0.03,im.shape)
+    #    im += noiser + 1j*noisei
+    #    maxmask = np.abs(im)> 1.0
+    #    im[maxmask] /= np.abs(im[maxmask])
     #im = rotate(im,np.random.normal(0,np.pi/2),reshape=False)
     #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
