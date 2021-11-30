@@ -9,6 +9,7 @@ import theano.tensor as T
 import lasagne
 import argparse
 import matplotlib.pyplot as plt
+import numpy as np
 
 from os.path import join
 from scipy.io import loadmat
@@ -20,8 +21,6 @@ from cascadenet.network.model import build_d2_c2, build_d5_c5
 from cascadenet.util.helpers import from_lasagne_format
 from cascadenet.util.helpers import to_lasagne_format
 
-import torch
-from torchvision import transforms
 
 def prep_input(im, acc=4):
     """Undersample the batch, then reformat them into what the network accepts.
@@ -32,15 +31,18 @@ def prep_input(im, acc=4):
                         higher the value, more undersampling
     """
     #Data augment
-    tr = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize(256,256),
-        transforms.RandomAffine(0,scale=(0.5,1.0)),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomVerticalFlip(p=0.5),
-        transforms.RandomCrop((224,224)),
-        transforms.Resize(256,256)])
-    im = tr(im).numpy()
+    im = im.copy()
+    if np.random.random()>0.5: #Flip 1
+        im = im[:,::-1]
+    if np.random.random()>0.5: #Flip 2
+        im = im[:,:,::-1]
+    if np.random.random()>0.5: #Noise
+        noiser = np.random.normal(0,0.03,im.shape)
+        noisei = np.random.normal(0,0.03,im.shape)
+        im += noiser + 1j*noisei
+        maxmask = np.abs(im)> 1.0
+        im[maxmask] /= np.abs(m[maxmask])
+    im = rotate(im,np.random.normal(0,np.pi/2,reshape=False))
     #Downsample
     mask = cs.cartesian_mask(im.shape, acc, sample_n=8)
     im_und, k_und = cs.undersample(im, mask, centred=False, norm='ortho')
