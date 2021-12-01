@@ -234,6 +234,7 @@ if __name__ == '__main__':
             test_batches += 1
 
             if save_fig and test_batches % save_every == 0:
+                print("---",im.shape,pred.shape,im_und.shape,mask.shape)
                 vis.append((im[0],
                             from_lasagne_format(pred)[0],
                             from_lasagne_format(im_und)[0],
@@ -264,6 +265,7 @@ if __name__ == '__main__':
             if save_fig:
                 i = 0
                 for im_i, pred_i, und_i, mask_i in vis:
+                    print("-",im_i.shape,pred_i.shape,und_i.shape,mask.shape)
                     plt.imsave(join(save_dir, 'im{0}.png'.format(i)),
                                abs(np.concatenate([und_i, pred_i,
                                                    im_i, im_i - pred_i], 1)),
