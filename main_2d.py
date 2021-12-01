@@ -191,6 +191,7 @@ if __name__ == '__main__':
     train, validate, test = create_dummy_data()
 
     print('Start Training...',num_epoch)
+    lil = []
     for epoch in range(num_epoch):
         print(epoch)
         t_start = time.time()
@@ -259,6 +260,8 @@ if __name__ == '__main__':
         print(" base PSNR:\t\t{:.6f}".format(base_psnr))
         print(" test PSNR:\t\t{:.6f}".format(test_psnr))
 
+        lil.append([train_err,test_err])
+
         # save the model
         if epoch %20 == 0:
             if save_fig:
@@ -277,3 +280,5 @@ if __name__ == '__main__':
                      *lasagne.layers.get_all_param_values(net))
             print('model parameters saved at %s' % join(os.getcwd(), name))
             print('')
+
+    print(lil)
